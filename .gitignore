@@ -1,0 +1,4 @@
+#ingone node modules
+node_modules/
+#ingnore .env 
+.env
