@@ -1,19 +1,19 @@
-import dotenv, { config } from "dotenv"
-import path from "path"
+import dotenv from "dotenv";
+import path from "path";
 
-dotenv.config({path : path.resolve(process.cwd(), ".env")})
+dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
 
 const config = {
-    env = process.env.NODE_ENV || "development",
-    port = process.env.PORT || 5000,
-    mongoDbUrl = process.env.MONGO_URI,
+    env: process.env.NODE_ENV || "development",
+    port: process.env.PORT || 5000,
+    mongoDbUrl: process.env.MONGO_URI,
 
     jwt : {
-        secret = process.env.JWT_SECRET,
-        expireIN = process.env.JWT_EXPIRES_IN || "1d"
+        secret: process.env.JWT_SECRET,
+        expireIN: process.env.JWT_EXPIRES_IN || "1d"
     },
-    bycryptSaltRound = parseInt(process.env.BCRYPT_SALT_ROUNDS) || 12
-}
+    bycryptSaltRound: parseInt(process.env.BCRYPT_SALT_ROUNDS) || 12
+};
 
-export default config
+export default config;
