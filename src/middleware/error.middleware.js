@@ -32,5 +32,4 @@ const errorMiddlewares = (err, req, res, next) => {
 
 export default errorMiddlewares;
 
-console.log("hello");
 

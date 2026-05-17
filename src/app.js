@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import config from "./config/index.js";
+import errorMiddlewares from "./middleware/error.middleware.js";
 
 const app = express();
 
@@ -21,5 +22,8 @@ app.get("/health", (req, res) => {
     uptime: process.uptime(),
   });
 });
+
+
+app.use(errorMiddlewares)
 
 export default app;
