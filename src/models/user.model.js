@@ -33,35 +33,32 @@ const userSchema = mongoose.Schema(
     },
   },
   {
-    timestamp: true,
+    timestamps: true,
   },
 );
 
 // password hash
 
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function () {
   if (!this.isModified("password")) return next();
 
-  this.password = await bcrypt.hash(this.password, config.bycryptSaltRound);
-  next();
+  this.password = await bcrypt.hash(this.password, config.bcryptSaltRound);
 });
 
-// compare password 
+// compare password
 
-userSchema.methods.comparePassword = async function(candidatePassword) {
- return await bcrypt.compare(candidatePassword, this.password)
-}
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password);
+};
 
 // generate token
 
-userSchema.methods.generatePassword = async function () {
-    return jwt.sign(
-        {id : this._id, role : this.role},
-        config.jwt.secret,
-        {expireIn : config.jwt.expireIN}
-    )
-}
+userSchema.methods.generateToken = async function () {
+  return jwt.sign({ id: this._id, role: this.role }, config.jwt.secret, {
+    expiresIn: config.jwt.expireIN,
+  });
+};
 
-const User = mongoose.model("User", userSchema)
+const User = mongoose.model("User", userSchema);
 
-export default User
+export default User;

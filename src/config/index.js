@@ -13,7 +13,7 @@ const config = {
         secret: process.env.JWT_SECRET,
         expireIN: process.env.JWT_EXPIRES_IN || "1d"
     },
-    bycryptSaltRound: parseInt(process.env.BCRYPT_SALT_ROUNDS) || 12
+    bcryptSaltRound: parseInt(process.env.BCRYPT_SALT_ROUNDS) || 12
 };
 
 export default config;

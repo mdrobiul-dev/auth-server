@@ -1,24 +1,25 @@
 import AppError from "../errors/AppError.js";
 
 const errorMiddlewares = (err, req, res, next) => {
-  let error = { ...err };
-  error.message = error.message;
+  let error = err;
 
   if (err.code === 11000) {
     const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
-    error.message = `inavalid duplicate value : ${value} please enter another one`;
-    error = new AppError(error.message, 400);
+    error = new AppError(
+      `inavalid duplicate value : ${value} please enter another one`,
+      400,
+    );
   }
 
   if (err.name === "ValidationError") {
     const message = Object.values(err.errors)
       .map((val) => val.message)
       .join(", ");
-    error = new AppError(error.message, 400);
+    error = new AppError(message, 400);
   }
 
   if (err.name === "CastError") {
-    error = new AppError(`invalid path : ${err.path} : ${value}`, 400);
+    error = new AppError(`invalid path : ${err.path} : ${err.value}`, 400);
   }
 
   console.log("ERROR", err);
@@ -31,5 +32,3 @@ const errorMiddlewares = (err, req, res, next) => {
 };
 
 export default errorMiddlewares;
-
-
