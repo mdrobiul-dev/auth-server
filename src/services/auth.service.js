@@ -37,5 +37,5 @@ export const loginUser = async (email, password) => {
   const userResponse = user.toObject();
   delete userResponse.password;
 
-  return {user : userResponse, token}           
+  return { user: userResponse, token };
 };
