@@ -1,0 +1,29 @@
+import AppError from "../errors/AppError.js";
+import User from "../models/user.model.js";
+
+export const getUser = async (userId) => {
+  const user = await User.findById(userId);
+
+  if (!user) throw new AppError("User not found", 404);
+
+  const userObj = user.toObject();
+  delete userObj.password;
+
+  return userObj;
+};
+
+export const updateProfileUser = async (userId, userData) => {
+  const { name, password } = userData;
+
+  const user = await User.findById(userId);
+
+  if (!user) throw new AppError("User not found", 404);
+
+  if (name) user.name = name;
+  if (password) user.password = password;
+
+  const updatedUserObj = user.toObject();
+  delete updatedUserObj.password;
+
+  return updatedUserObj;
+};
