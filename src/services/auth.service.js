@@ -38,4 +38,4 @@ export const loginUser = async (email, password) => {
   delete userResponse.password;
 
   return { user: userResponse, token };
-};
+};         
