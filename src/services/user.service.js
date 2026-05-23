@@ -22,8 +22,22 @@ export const updateProfileUser = async (userId, userData) => {
   if (name) user.name = name;
   if (password) user.password = password;
 
+  await user.save();
+
   const updatedUserObj = user.toObject();
   delete updatedUserObj.password;
 
   return updatedUserObj;
+};
+
+export const getAllUser = async () => {
+  const users = await User.find().select("-password");
+  return users;
+};
+
+export const deleteUser = async (userId) => {
+  const user = await User.findByIdAndDelete(userId);
+  if (!user) throw new AppError("User not found", 400);
+
+  return user;
 };
