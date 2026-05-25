@@ -3,7 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import config from "./config/index.js";
 import errorMiddlewares from "./middleware/error.middleware.js";
-import routes from "./routes/index.js"
+import routes from "./routes/index.js";
 
 const app = express();
 
@@ -24,9 +24,8 @@ app.get("/health", (req, res) => {
   });
 });
 
-app.use("/api", routes)
+app.use("/api", routes);
 
+app.use(errorMiddlewares);
 
-app.use(errorMiddlewares)
-
-export default app;                                
+export default app;
