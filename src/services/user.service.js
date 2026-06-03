@@ -40,5 +40,5 @@ export const deleteUser = async (userId) => {
   if (!user) throw new AppError("User not found", 400);
 
   return user;
-};        
+};                      
                      
