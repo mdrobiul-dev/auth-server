@@ -1,4 +1,4 @@
-import { registerUser, loginUser } from "../services/auth.service.js";
+import { registerUser, loginUser, refreshAccessToken, logoutUser } from "../services/auth.service.js";
 import { successResponse } from "../utils/apiResponse.js";
 import catchAsync from "../utils/catchAsync.js";
 import { HTTP_STATUS } from "../utils/constant.js";
@@ -15,3 +15,18 @@ export const login = catchAsync(async(req, res, next) => {
 
    successResponse(res, "Login successfull", {user, token}, HTTP_STATUS.OK)
 })
+
+export const refreshToken = catchAsync(async (req, res, next) => {
+  const { refreshToken } = req.body;
+  const { accessToken, user } = await refreshAccessToken(refreshToken);
+
+  successResponse(res, 'Token refreshed successfully', { 
+    accessToken, 
+    user 
+  });
+});
+
+export const logout = catchAsync(async (req, res, next) => {
+  await logoutUser(req.user._id);
+  successResponse(res, 'Logged out successfully');
+});

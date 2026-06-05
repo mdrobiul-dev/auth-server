@@ -1,6 +1,8 @@
 import AppError from "../errors/AppError.js";
 import User from "../models/user.model.js";
 import { HTTP_STATUS } from "../utils/constant.js";
+import jwt from "jsonwebtoken";
+import config from "../config/index.js";
 
 export const registerUser = async (userData) => {
   const { name, email, password } = userData;
@@ -38,4 +40,31 @@ export const loginUser = async (email, password) => {
   delete userResponse.password;
 
   return { user: userResponse, token };
-};         
+};
+
+export const generateRefreshToken = async (user) => {
+  const refreshToken = jwt.sign({ id: user.id }, config.jwt.secret, {
+    expiresIn: config.jwt.expireIN,
+  });
+
+  user.refreshToken = refreshToken;
+  await user.save();
+
+  return refreshToken;
+};
+
+export const refreshAccessToken = async (refreshToken) => {
+  if (!refreshToken) throw new AppError('Refresh token required', 401);
+
+  const decoded = jwt.verify(refreshToken, config.jwt.secret);
+  const user = await User.findOne({ _id: decoded.id, refreshToken });
+
+  if (!user) throw new AppError('Invalid or expired refresh token', 401);
+
+  const newAccessToken = user.generateAuthToken();
+  return { accessToken: newAccessToken, user };
+};
+
+export const logoutUser = async (userId) => {
+  await User.findByIdAndUpdate(userId, { refreshToken: null });
+};

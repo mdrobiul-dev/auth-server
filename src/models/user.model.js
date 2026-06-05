@@ -31,6 +31,10 @@ const userSchema = mongoose.Schema(
       enum: [ROLES.ADMIN, ROLES.USER],
       default: ROLES.USER,
     },
+    refreshToken : {
+      type : String,
+      select : false
+    },
   },
   {
     timestamps: true,
