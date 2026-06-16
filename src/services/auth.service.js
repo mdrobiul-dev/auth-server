@@ -54,12 +54,12 @@ export const generateRefreshToken = async (user) => {
 };
 
 export const refreshAccessToken = async (refreshToken) => {
-  if (!refreshToken) throw new AppError('Refresh token required', 401);
+  if (!refreshToken) throw new AppError("Refresh token required", 401);
 
   const decoded = jwt.verify(refreshToken, config.jwt.secret);
   const user = await User.findOne({ _id: decoded.id, refreshToken });
 
-  if (!user) throw new AppError('Invalid or expired refresh token', 401);
+  if (!user) throw new AppError("Invalid or expired refresh token", 401);
 
   const newAccessToken = user.generateToken();
   return { accessToken: newAccessToken, user };
@@ -68,4 +68,3 @@ export const refreshAccessToken = async (refreshToken) => {
 export const logoutUser = async (userId) => {
   await User.findByIdAndUpdate(userId, { refreshToken: null });
 };
-                       
