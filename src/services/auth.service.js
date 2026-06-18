@@ -68,4 +68,3 @@ export const refreshAccessToken = async (refreshToken) => {
 export const logoutUser = async (userId) => {
   await User.findByIdAndUpdate(userId, { refreshToken: null });
 };
-                                                  
